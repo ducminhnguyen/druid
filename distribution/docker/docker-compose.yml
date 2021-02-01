@@ -16,7 +16,7 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-version: "2.2"
+version: "2.0"
 
 volumes:
   metadata_data: {}
@@ -25,7 +25,8 @@ volumes:
   broker_var: {}
   coordinator_var: {}
   router_var: {}
-
+  historical_storage: {}
+  historical_storage_1: {}
 
 services:
   postgres:
@@ -49,7 +50,7 @@ services:
     image: apache/druid:0.20.0
     container_name: coordinator
     volumes:
-      - ./storage:/opt/data
+      - historical_storage:/opt/data
       - coordinator_var:/opt/druid/var
     depends_on: 
       - zookeeper
@@ -81,7 +82,7 @@ services:
     image: apache/druid:0.20.0
     container_name: historical
     volumes:
-      - ./storage:/opt/data
+      - historical_storage_1:/opt/data
       - historical_var:/opt/druid/var
     depends_on: 
       - zookeeper
